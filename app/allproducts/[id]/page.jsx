@@ -2,30 +2,42 @@ import React from "react";
 import Link from "next/link";
 
 const products = [
-  { id: 1, title: "Secateurs", price: 199, oldPrice: 240, discount: "-17%", image: "/img (9).png" },
-  { id: 2, title: "Collection for berries (p...", price: 26, oldPrice: 35, discount: "-26%", image: "/img (10).png" },
-  { id: 3, title: "Gloves (black)", price: 9, oldPrice: 14, discount: "-36%", image: "/img (11).png" },
-  { id: 4, title: "Sickle-shaped hacksaw", price: 155, oldPrice: null, discount: null, image: "/img (12).png" },
-  { id: 5, title: "Bayonet shovel", price: 180, oldPrice: null, discount: null, image: "/img (13).png" },
-  { id: 6, title: "Garden pitchfork", price: 179, oldPrice: null, discount: null, image: "/img (14).png" },
-  { id: 7, title: "Barbell", price: 12, oldPrice: null, discount: null, image: "/img (15).png" },
-  { id: 8, title: "Souvenir thermometer", price: 98, oldPrice: 120, discount: "-18%", image: "/img (16).png" },
+  { id: 1, title: "Secateurs", price: 199, oldPrice: 240, discount: "-17%", image: "/img (9).png", description: "High-quality garden secateurs for trimming plants and branches." },
+  { id: 2, title: "Collection for berries (p...", price: 26, oldPrice: 35, discount: "-26%", image: "/img (10).png", description: "A practical collection tool for picking fresh berries." },
+  { id: 3, title: "Gloves (black)", price: 9, oldPrice: 14, discount: "-36%", image: "/img (11).png", description: "Comfortable black gloves for everyday gardening work." },
+  { id: 4, title: "Sickle-shaped hacksaw", price: 155, oldPrice: null, discount: null, image: "/img (12).png", description: "A durable sickle-shaped hacksaw for garden maintenance." },
+  { id: 5, title: "Bayonet shovel", price: 180, oldPrice: null, discount: null, image: "/img (13).png", description: "A strong bayonet shovel for digging and planting." },
+  { id: 6, title: "Garden pitchfork", price: 179, oldPrice: null, discount: null, image: "/img (14).png", description: "A useful garden pitchfork for working with soil." },
+  { id: 7, title: "Barbell", price: 12, oldPrice: null, discount: null, image: "/img (15).png", description: "A practical tool for your garden and outdoor needs." },
+  { id: 8, title: "Souvenir thermometer", price: 98, oldPrice: 120, discount: "-18%", image: "/img (16).png", description: "A decorative thermometer for your home or garden." },
 ];
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
-  const { slug } = await params
-  const post = await getPost(slug)
-  return {
-    title: post.title,
-    description: post.description,
+
+export async function generateMetadata({ params }) {
+  const { id } = await params;
+
+  const product = products.find(
+    (item) => item.id === Number(id)
+  );
+
+  if (!product) {
+    return {
+      title: "Product not found",
+      description: "The requested product could not be found.",
+    };
   }
+
+  return {
+    title: product.title,
+    description: product.description,
+  };
 }
+
 export default async function ProductDetailPage({ params }) {
   const { id } = await params;
-  const product = products.find((item) => item.id === Number(id));
+
+  const product = products.find(
+    (item) => item.id === Number(id)
+  );
 
   if (!product) {
     return (
@@ -33,6 +45,7 @@ export default async function ProductDetailPage({ params }) {
         <h1 className="text-3xl font-bold text-[#282828]">
           Product not found
         </h1>
+
         <Link
           href="/allproducts"
           className="px-6 py-3 rounded-full bg-[#339933] text-white font-medium hover:bg-[#2a8a2a] transition"
@@ -46,15 +59,27 @@ export default async function ProductDetailPage({ params }) {
   return (
     <main className="w-full max-w-[1440px] mx-auto px-6 sm:px-10 lg:px-16 py-10 font-sans text-[#282828] bg-white">
       <nav className="flex flex-wrap items-center gap-3 text-sm text-gray-400 mb-8 font-medium">
-        <Link href="/" className="hover:text-[#339933] transition-colors">
+        <Link
+          href="/"
+          className="hover:text-[#339933] transition-colors"
+        >
           Main page
         </Link>
+
         <span>—</span>
-        <Link href="/allproducts" className="hover:text-[#339933] transition-colors">
+
+        <Link
+          href="/allproducts"
+          className="hover:text-[#339933] transition-colors"
+        >
           Tools and equipment
         </Link>
+
         <span>—</span>
-        <span className="text-[#282828]">{product.title}</span>
+
+        <span className="text-[#282828]">
+          {product.title}
+        </span>
       </nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
@@ -116,9 +141,12 @@ export default async function ProductDetailPage({ params }) {
           </div>
 
           <div className="border-t border-[#f0f0f0] pt-6">
-            <h3 className="text-lg font-bold mb-2">Description</h3>
+            <h3 className="text-lg font-bold mb-2">
+              Description
+            </h3>
+
             <p className="text-gray-600 text-sm sm:text-base leading-relaxed">
-              Product description
+              {product.description}
             </p>
           </div>
         </div>
