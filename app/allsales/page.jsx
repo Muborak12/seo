@@ -1,6 +1,10 @@
 import Link from "next/link";
 import React from "react";
-
+export const metadata = {
+  title: "All Sales | Gardening Store",
+  description:
+    "Explore all gardening products on sale. Find discounted garden tools, fertilizers, planting materials, and accessories at great prices.",
+};
 export default async function ShoppingCart() {
   const data = await fetch(
     "https://api.escuelajs.co/api/v1/products?limit=8&offset=1"

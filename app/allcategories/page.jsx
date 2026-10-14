@@ -28,7 +28,11 @@ function cellClass(i, n) {
     lgWide ? "lg:col-span-4" : "",
   ].join(" ");
 }
-
+export const metadata = {
+  title: "All Categories | Gardening Store",
+  description:
+    "Explore all gardening categories, including fertilizers, plant protection products, planting materials, tools, and equipment for your garden.",
+};
 export default async function AllCategories() {
   let categories = [];
 
